@@ -10,6 +10,24 @@ namespace IPAprograma
     {
         static void Main(string[] args)
         {
+            while (true)
+            {
+                Console.WriteLine("Iveskite funkcijos numeri (ir spauskite enter):");
+                Console.WriteLine("1. Ivesite studentu duomenis");
+                Console.WriteLine("E. Baigti programa");
+
+                var line = Console.ReadLine();
+
+                if (line.Equals("1"))
+                {
+                    Studentai.IvestiStudentus();
+                }
+
+                if (line.Equals("E"))
+                {
+                    break;
+                }
+            }
         }
     }
 }

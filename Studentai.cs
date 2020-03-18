@@ -11,8 +11,21 @@ namespace IPAprograma
         public string v;
         public string p;
         public double egz;
-
         List<double> pzm;
+
+        public Stud(string args)
+        {
+            var data = args.Split();
+
+            v = data[0];
+            p = data[1];
+
+            pzm = new List<double>();
+            for (int i = 2; i < data.Length; i++)
+            {
+                pzm.Add(double.Parse(data[i]));
+            }
+        }
 
         public Stud(string vardas, string pavarde)
         {
@@ -62,19 +75,43 @@ namespace IPAprograma
     }
 
 
-    class Studentai
+    public static class Studentai
     {
-        List<Stud> studentai;
-
-        public Studentai()
+        public static void IvestiStudentus()
         {
-            studentai = new List<Stud>();
+            var studentai = new List<Stud>();
+
+            string line;
+            while (true)
+            {
+                Console.WriteLine("Iveskite varda, pavarde ir studento pazymius");
+                Console.WriteLine("ARBA spauskite enter");
+
+                line = Console.ReadLine();
+
+                if (line.Equals(""))
+                {
+                    break;
+                }
+                else
+                {
+                    var data = line.Split();
+
+                    studentai.Add(new Stud(line));
+                }
+            }
+
+            Console.WriteLine("Iveskite M (mean) arba MED (mediana)");
+            line = Console.ReadLine();
+
+            int option = 1; //1 mean, 2 mediana
+            if (line.Equals("MED"))
+            {
+                option = 2;
+            }
+
+
         }
-
-        public void NuskaitytiIsKonsoles()
-        {
-
-        }
-
+        
     }
 }
