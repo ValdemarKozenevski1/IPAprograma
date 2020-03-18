@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace IPAprograma
 {
-    class Stud 
+    public enum Stats
+    {
+        Mean,
+        Median
+    }
+
+    public class Stud 
     {
         public string v;
         public string p;
         public double egz;
-        List<double> pzm;
+        List<double> pzm = new List<double>();
+        public static Random Rnd = new Random();
+
 
         public Stud(string args)
         {
@@ -20,10 +28,19 @@ namespace IPAprograma
             v = data[0];
             p = data[1];
 
-            pzm = new List<double>();
-            for (int i = 2; i < data.Length; i++)
+            if (data[2].StartsWith("x"))
             {
-                pzm.Add(double.Parse(data[i]));
+                for(int i = 0; i < int.Parse(data[2].Replace("x", "")); i++)
+                {
+                    pzm.Add(Rnd.Next(0, 10));
+                }
+            }
+            else
+            {
+                for (int i = 2; i < data.Length; i++)
+                {
+                    pzm.Add(double.Parse(data[i]));
+                }
             }
         }
 
@@ -31,7 +48,6 @@ namespace IPAprograma
         {
             v = vardas;
             p = pavarde;
-            pzm = new List<double>();
         }
 
         public Stud(string vardas, string pavarde, List<double> grades)
@@ -72,11 +88,25 @@ namespace IPAprograma
                 return temp[count / 2];
             }
         }
+
+        public string[] GetData(Stats option)
+        {
+            var data = new string[] { p, v };
+            double value = 0;
+            if(option == Stats.Mean)
+            {
+                value = GetMean();
+            }
+            else if (option == Stats.Median)
+            {
+                value = GetMedian();
+            }
+            return data.Append(value.ToString("0.##")).ToArray();
+        }
     }
 
-
     public static class Studentai
-    {
+    {        
         public static void IvestiStudentus()
         {
             var studentai = new List<Stud>();
@@ -84,7 +114,7 @@ namespace IPAprograma
             string line;
             while (true)
             {
-                Console.WriteLine("Iveskite varda, pavarde ir studento pazymius");
+                Console.WriteLine("Iveskite varda, pavarde ir studento pazymius (ARBA xN kur N yra norimu pazymiu skaicius)");
                 Console.WriteLine("ARBA spauskite enter");
 
                 line = Console.ReadLine();
@@ -101,17 +131,16 @@ namespace IPAprograma
                 }
             }
 
-            Console.WriteLine("Iveskite M (mean) arba MED (mediana)");
+            Console.WriteLine("Iveskite m (mean) arba me (mediana)");
             line = Console.ReadLine();
 
-            int option = 1; //1 mean, 2 mediana
-            if (line.Equals("MED"))
+            Stats option = Stats.Mean; //1 mean, 2 mediana
+            if (line.ToLower().Equals("me"))
             {
-                option = 2;
+                option = Stats.Median;
             }
 
-
-        }
-        
+            Lentele.PrintStudentList(studentai, option);
+        }        
     }
 }
