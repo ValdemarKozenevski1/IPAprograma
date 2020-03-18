@@ -20,7 +20,8 @@ namespace IPAprograma
 
                 if (line.Equals("1"))
                 {
-                    Studentai.IvestiStudentus();
+                    //Studentai.IvestiStudentus();
+                    StudentaiArr.StudentaiIsMasyvo.IvestiStudentus();
                 }
 
                 if (line.Equals("E"))
