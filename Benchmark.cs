@@ -21,7 +21,7 @@ namespace IPAprograma
                 var times = ExecuteBencmark(i);
 
                 var data = new List<string>() { $"{i}" };
-                data.AddRange(times.Select(x => string.Format("{0}:{1:D2}.{2}", (int)x.TotalMinutes, x.Seconds, x.Milliseconds)));
+                data.AddRange(FormatTimeSpans(times));
                 System.Console.WriteLine(Lentele.GetFormatRow(false, data.ToArray()));
             }
         }
@@ -33,7 +33,7 @@ namespace IPAprograma
             sw.Start();
 
             var stud = new List<Stud>();
-            for(int i = 0; i <n; i++)
+            for (int i = 0; i < n; i++)
             {
                 stud.Add(new Stud($"Vardas{i} Pavarde{i} x5"));
             }
@@ -44,7 +44,7 @@ namespace IPAprograma
             var k = new List<Stud>();
             for (int i = 0; i < n; i++)
             {
-                if(stud[i].GetMean() < 5)
+                if (stud[i].GetMean() < 5)
                 {
                     v.Add(stud[i]);
                 }
@@ -76,9 +76,88 @@ namespace IPAprograma
             return times;
         }
 
-        public static void RunContainerBenchmark()
+        public static void RunContainerBenchmark(int size)
         {
-            
+            Lentele.tableWidth = 80;
+
+            System.Console.WriteLine($"Student list size: {size}");
+            System.Console.WriteLine(Lentele.GetFormatRow(false, "Container", "Init", "Split", "Sort", "Write"));
+            System.Console.WriteLine(Lentele.GetLine());
+
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestList(size)).Prepend("List").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedList(size)).Prepend("LinkedList").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue").ToArray()));
+        }
+
+        public static string[] FormatTimeSpans(List<TimeSpan> times)
+        {
+            return times.Select(x => string.Format("{0}:{1:D2}.{2}", (int)x.TotalMinutes, x.Seconds, x.Milliseconds)).ToArray();
+        }
+
+        public static List<TimeSpan> TestList(int size)
+        {
+            var times = new List<TimeSpan>();
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            var container = new List<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                container.Add(new Stud($"Vardas{i} Pavarde{i} x5"));
+            }
+
+            times.Add(sw.Elapsed);
+
+            var a = new List<Stud>();
+            var b = new List<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                if(container[i].GetMean() < 5)
+                {
+                    a.Add(container[i]);
+                }
+                else
+                {
+                    b.Add(container[i]);
+                }
+            }
+
+            times.Add(sw.Elapsed);
+
+            a = Studentai.OrderStudents(a);
+            b = Studentai.OrderStudents(b);
+
+            times.Add(sw.Elapsed);
+
+            string path = System.IO.Path.GetTempFileName();
+            Studentai.WriteStudents(path, container);
+            System.IO.File.Delete(path);
+
+            times.Add(sw.Elapsed);
+
+            return times;
+        }
+
+        public static List<TimeSpan> TestLinkedList(int size)
+        {
+            var times = new List<TimeSpan>();
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+
+
+            return times;
+        }
+
+        public static List<TimeSpan> TestQueue(int size)
+        {
+            var times = new List<TimeSpan>();
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+
+
+            return times;
         }
     }
 }
