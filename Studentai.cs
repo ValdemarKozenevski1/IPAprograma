@@ -76,7 +76,13 @@ namespace IPAprograma
             {
                 return 0;
             }
-            return (double)pzm.Sum() / (double)pzm.Count;
+
+            try
+            {
+                return (double)pzm.Sum() / (double)pzm.Count;
+            }
+            finally { }
+            return 0;
         }
 
         public double GetMedian()
