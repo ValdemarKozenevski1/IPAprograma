@@ -233,7 +233,7 @@ namespace IPAprograma
             return studs.OrderBy(x => x.v).ThenByDescending(x => x.p).ToList();
         }
 
-        public static void WriteStudents(string path, List<Stud> studs)
+        public static void WriteStudents(string path, IEnumerable<Stud> studs)
         {
             var saveWidth = Lentele.tableWidth;
             Lentele.tableWidth = 120;
