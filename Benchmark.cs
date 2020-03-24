@@ -75,5 +75,10 @@ namespace IPAprograma
 
             return times;
         }
+
+        public static void RunContainerBenchmark()
+        {
+            
+        }
     }
 }
