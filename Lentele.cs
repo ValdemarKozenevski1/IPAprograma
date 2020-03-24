@@ -12,16 +12,19 @@ namespace IPAprograma
 
         public static void PrintStudentList(List<Stud> studentai, Stats option)
         {
+            studentai = Studentai.OrderStudents(studentai);
+
             PrintLine();
-            var row = new string[] { "Vardas", "Pavarde" };
-            if(option == Stats.Mean)
+            var row = new string[] { "Pavarde", "Vardas" };
+            if (option == Stats.Mean || option == Stats.All)
             {
                 row = row.Append("Galutinis (Vid.)").ToArray();
             }
-            else if (option == Stats.Median)
+            if (option == Stats.Median || option == Stats.All)
             {
                 row = row.Append("Galutinis (Med.)").ToArray();
             }
+
             PrintRow(row);
             PrintLine();
             foreach (var stud in studentai)
