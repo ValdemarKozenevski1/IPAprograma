@@ -35,7 +35,7 @@ namespace IPAprograma
                 }
                 if (line.Equals("4"))
                 {
-                    Benchmark.RunContainerBenchmark();
+                    Benchmark.RunContainerBenchmark(1000000);
                 }
                 if (line.ToLower().Equals("e"))
                 {
