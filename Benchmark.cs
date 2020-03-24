@@ -56,8 +56,8 @@ namespace IPAprograma
 
             times.Add(sw.Elapsed);
 
-            v = Studentai.OrderStudents(v);
-            k = Studentai.OrderStudents(k);
+            v = Studentai.OrderStudents(v).ToList();
+            k = Studentai.OrderStudents(k).ToList();
 
             times.Add(sw.Elapsed);
 
@@ -124,8 +124,8 @@ namespace IPAprograma
 
             times.Add(sw.Elapsed);
 
-            a = Studentai.OrderStudents(a);
-            b = Studentai.OrderStudents(b);
+            a = Studentai.OrderStudents(a).ToList();
+            b = Studentai.OrderStudents(b).ToList();
 
             times.Add(sw.Elapsed);
 
@@ -144,7 +144,38 @@ namespace IPAprograma
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
 
+            var container = new LinkedList<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                container.AddLast(new Stud($"Vardas{i} Pavarde{i} x5"));
+            }
 
+            times.Add(sw.Elapsed);
+
+            var a = new LinkedList<Stud>();
+            var b = new LinkedList<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                if (container.ElementAt(i).GetMean() < 5)
+                {
+                    a.AddLast(container.ElementAt(i));
+                }
+                else
+                {
+                    b.AddLast(container.ElementAt(i));
+                }
+            }
+
+            times.Add(sw.Elapsed);
+            a = new LinkedList<Stud>(Studentai.OrderStudents(a));
+            b = new LinkedList<Stud>(Studentai.OrderStudents(b));            
+            times.Add(sw.Elapsed);
+
+            string path = System.IO.Path.GetTempFileName();
+            Studentai.WriteStudents(path, container);
+            System.IO.File.Delete(path);
+
+            times.Add(sw.Elapsed);
 
             return times;
         }

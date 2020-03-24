@@ -14,7 +14,7 @@ namespace IPAprograma
         {
             try
             {
-                var temp = Studentai.OrderStudents(studentai);
+                var temp = Studentai.OrderStudents(studentai).ToList();
                 studentai = temp;
             }
             finally { }

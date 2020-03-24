@@ -84,7 +84,6 @@ namespace IPAprograma
                 return (double)pzm.Sum() / (double)pzm.Count;
             }
             finally { }
-            return 0;
         }
 
         public double GetMedian()
@@ -110,7 +109,6 @@ namespace IPAprograma
                 }
             }
             finally{}
-            return 0;
         }
 
         public string[] GetData(Stats option)
@@ -228,9 +226,9 @@ namespace IPAprograma
             return stud;
         }
 
-        public static List<Stud> OrderStudents(List<Stud> studs)
+        public static IEnumerable<Stud> OrderStudents(IEnumerable<Stud> studs)
         {
-            return studs.OrderBy(x => x.v).ThenByDescending(x => x.p).ToList();
+            return studs.OrderBy(x => x.v).ThenByDescending(x => x.p);
         }
 
         public static void WriteStudents(string path, IEnumerable<Stud> studs)
@@ -243,7 +241,7 @@ namespace IPAprograma
             {
                 file = new System.IO.StreamWriter(path);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return;
             }
