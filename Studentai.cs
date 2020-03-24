@@ -114,14 +114,21 @@ namespace IPAprograma
         public string[] GetData(Stats option)
         {
             var data = new List<string> { p, v };
-            if (option == Stats.Mean || option == Stats.All)
+            try
             {
-                data.Add(GetMean().ToString("0.##"));
+                if (option == Stats.Mean || option == Stats.All)
+                {
+                    data.Add(GetMean().ToString("0.##"));
+                }
+                if (option == Stats.Median || option == Stats.All)
+                {
+                    data.Add(GetMedian().ToString("0.##"));
+                }
             }
-            if (option == Stats.Median || option == Stats.All)
+            catch (Exception)
             {
-                data.Add(GetMedian().ToString("0.##"));
             }
+            
             return data.ToArray();
         }
     }
