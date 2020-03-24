@@ -9,17 +9,17 @@ namespace IPAprograma
     public enum Stats
     {
         Mean,
-        Median
+        Median,
+        All
     }
 
-    public class Stud 
+    public class Stud
     {
         public string v;
         public string p;
         public double egz;
         List<double> pzm = new List<double>();
         public static Random Rnd = new Random();
-
 
         public Stud(string args)
         {
@@ -30,7 +30,7 @@ namespace IPAprograma
 
             if (data[2].StartsWith("x"))
             {
-                for(int i = 0; i < int.Parse(data[2].Replace("x", "")); i++)
+                for (int i = 0; i < int.Parse(data[2].Replace("x", "")); i++)
                 {
                     pzm.Add(Rnd.Next(0, 10));
                 }
@@ -60,9 +60,19 @@ namespace IPAprograma
             egz = egzGrade;
         }
 
+        public void AddGrade(double g)
+        {
+            pzm.Add(g);
+        }
+
+        public void SetEgz(double e)
+        {
+            egz = e;
+        }
+
         public double GetMean()
         {
-            if(pzm.Count == 0)
+            if (pzm.Count == 0)
             {
                 return 0;
             }
@@ -79,7 +89,7 @@ namespace IPAprograma
                 return 0;
             }
             else if (count % 2 == 0)
-            {                
+            {
                 return (temp[count / 2 - 1] + temp[count / 2]) / 2.0;
             }
             else
@@ -91,22 +101,21 @@ namespace IPAprograma
 
         public string[] GetData(Stats option)
         {
-            var data = new string[] { p, v };
-            double value = 0;
-            if(option == Stats.Mean)
+            var data = new List<string> { p, v };
+            if (option == Stats.Mean || option == Stats.All)
             {
-                value = GetMean();
+                data.Add(GetMean().ToString("0.##"));
             }
-            else if (option == Stats.Median)
+            if (option == Stats.Median || option == Stats.All)
             {
-                value = GetMedian();
+                data.Add(GetMedian().ToString("0.##"));
             }
-            return data.Append(value.ToString("0.##")).ToArray();
+            return data.ToArray();
         }
     }
 
     public static class Studentai
-    {        
+    {
         public static void IvestiStudentus()
         {
             var studentai = new List<Stud>();
@@ -141,6 +150,61 @@ namespace IPAprograma
             }
 
             Lentele.PrintStudentList(studentai, option);
-        }        
+        }
+
+        public static void IvestiStudentuFaila()
+        {
+            var studentai = new List<Stud>();
+
+            while (true)
+            {
+                Console.WriteLine("Iveskite kelia i faila");
+                var line = Console.ReadLine().Replace("\"", "");
+
+                if (System.IO.File.Exists(line))
+                {
+                    studentai = NuskaitytiFaila(line);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Blogas kelias i faila.");
+                }
+            }
+
+            Lentele.PrintStudentList(studentai, Stats.All);
+        }
+
+        public static List<Stud> NuskaitytiFaila(string path)
+        {
+            var studentai = new List<Stud>();
+
+            foreach (string line in System.IO.File.ReadLines(path).Skip(1))
+            {
+                studentai.Add(ReadStudent(line));
+            }
+
+            return studentai;
+        }
+
+        public static Stud ReadStudent(string line)
+        {
+            var args = line.Split().Where(x => !x.Equals("")).ToArray();
+            var stud = new Stud(args[0], args[1]);
+
+            for (int i = 2; i < args.Length - 1; i++)
+            {
+                stud.AddGrade(double.Parse(args[i]));
+            }
+
+            stud.SetEgz(double.Parse(args.Last()));
+
+            return stud;
+        }
+
+        public static List<Stud> OrderStudents(List<Stud> studs)
+        {
+            return studs.OrderBy(x => x.v).ThenByDescending(x => x.p).ToList();
+        }
     }
 }
