@@ -186,7 +186,38 @@ namespace IPAprograma
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
 
+            var container = new Queue<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                container.Enqueue(new Stud($"Vardas{i} Pavarde{i} x5"));
+            }
 
+            times.Add(sw.Elapsed);
+
+            var a = new Queue<Stud>();
+            var b = new Queue<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                if (container.ElementAt(i).GetMean() < 5)
+                {
+                    a.Enqueue(container.ElementAt(i));
+                }
+                else
+                {
+                    b.Enqueue(container.ElementAt(i));
+                }
+            }
+
+            times.Add(sw.Elapsed);
+            a = new Queue<Stud>(Studentai.OrderStudents(a));
+            b = new Queue<Stud>(Studentai.OrderStudents(b));
+            times.Add(sw.Elapsed);
+
+            string path = System.IO.Path.GetTempFileName();
+            Studentai.WriteStudents(path, container);
+            System.IO.File.Delete(path);
+
+            times.Add(sw.Elapsed);
 
             return times;
         }
