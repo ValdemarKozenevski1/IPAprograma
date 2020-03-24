@@ -14,14 +14,18 @@ namespace IPAprograma
             {
                 Console.WriteLine("Iveskite funkcijos numeri (ir spauskite enter):");
                 Console.WriteLine("1. Ivesite studentu duomenis");
+                Console.WriteLine("2. Ivesite duomenu faila");
                 Console.WriteLine("E. Baigti programa");
 
                 var line = Console.ReadLine();
 
                 if (line.Equals("1"))
                 {
-                    //Studentai.IvestiStudentus();
-                    StudentaiArr.StudentaiIsMasyvo.IvestiStudentus();
+                    Studentai.IvestiStudentus();
+                }
+                if (line.Equals("2"))
+                {
+                    Studentai.IvestiStudentuFaila();
                 }
 
                 if (line.Equals("E"))
