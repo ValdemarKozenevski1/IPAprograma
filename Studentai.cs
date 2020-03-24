@@ -134,8 +134,6 @@ namespace IPAprograma
                 }
                 else
                 {
-                    var data = line.Split();
-
                     studentai.Add(new Stud(line));
                 }
             }
