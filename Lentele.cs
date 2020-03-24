@@ -12,7 +12,12 @@ namespace IPAprograma
 
         public static void PrintStudentList(List<Stud> studentai, Stats option)
         {
-            studentai = Studentai.OrderStudents(studentai);
+            try
+            {
+                var temp = Studentai.OrderStudents(studentai);
+                studentai = temp;
+            }
+            finally { }
 
             PrintLine();
             var row = new string[] { "Pavarde", "Vardas" };
