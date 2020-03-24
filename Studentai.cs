@@ -8,8 +8,10 @@ namespace IPAprograma
 {
     public enum Stats
     {
+        None,
         Mean,
         Median,
+        Grades,
         All
     }
 
@@ -124,6 +126,13 @@ namespace IPAprograma
                 {
                     data.Add(GetMedian().ToString("0.##"));
                 }
+                if (option == Stats.Grades)
+                {
+                    foreach (var grade in pzm)
+                    {
+                        data.Add(grade.ToString("0.##"));
+                    }
+                }
             }
             catch (Exception)
             {
@@ -222,6 +231,32 @@ namespace IPAprograma
         public static List<Stud> OrderStudents(List<Stud> studs)
         {
             return studs.OrderBy(x => x.v).ThenByDescending(x => x.p).ToList();
+        }
+
+        public static void WriteStudents(string path, List<Stud> studs)
+        {
+            var saveWidth = Lentele.tableWidth;
+            Lentele.tableWidth = 120;
+
+            System.IO.StreamWriter file;
+            try
+            {
+                file = new System.IO.StreamWriter(path);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
+
+            file.WriteLine(Lentele.GetFormatRow(false, "Pavarde", "Vardas", "ND1", "ND2", "ND3", "ND4", "ND5"));
+
+            foreach(var stud in studs)
+            {
+                file.WriteLine(Lentele.GetFormatRow(false, stud.GetData(Stats.Grades)));
+            }            
+
+            file.Close();
+            Lentele.tableWidth = saveWidth;
         }
     }
 }
