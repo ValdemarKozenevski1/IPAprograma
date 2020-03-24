@@ -32,7 +32,7 @@ namespace IPAprograma
                 {
                     Benchmark.RunBenchmark();
                 }
-                if (line.Equals("E"))
+                if (line.ToLower().Equals("e"))
                 {
                     break;
                 }
