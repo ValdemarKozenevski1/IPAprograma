@@ -84,19 +84,25 @@ namespace IPAprograma
             double[] temp = pzm.ToArray();
             Array.Sort(temp);
             int count = temp.Length;
-            if (count == 0)
+
+            try
             {
-                return 0;
+                if (count == 0)
+                {
+                    return 0;
+                }
+                else if (count % 2 == 0)
+                {
+                    return (temp[count / 2 - 1] + temp[count / 2]) / 2.0;
+                }
+                else
+                {
+                    // count is odd, return the middle element
+                    return temp[count / 2];
+                }
             }
-            else if (count % 2 == 0)
-            {
-                return (temp[count / 2 - 1] + temp[count / 2]) / 2.0;
-            }
-            else
-            {
-                // count is odd, return the middle element
-                return temp[count / 2];
-            }
+            finally{}
+            return 0;
         }
 
         public string[] GetData(Stats option)
