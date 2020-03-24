@@ -89,8 +89,8 @@ namespace IPAprograma
             System.Console.WriteLine(Lentele.GetLine());
 
             System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestList(size)).Prepend("List").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedList(size)).Prepend("LinkedList").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedListLast(size)).Prepend("LinkedList").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueueElementAt(size)).Prepend("Queue").ToArray()));
         }
 
         public static string[] FormatTimeSpans(List<TimeSpan> times)
@@ -146,7 +146,7 @@ namespace IPAprograma
             return times;
         }
 
-        public static List<TimeSpan> TestLinkedList(int size)
+        public static List<TimeSpan> TestLinkedListFirst(int size)
         {
             var times = new List<TimeSpan>();
             var sw = new System.Diagnostics.Stopwatch();
@@ -155,7 +155,7 @@ namespace IPAprograma
             var container = new LinkedList<Stud>();
             for (int i = 0; i < size; i++)
             {
-                container.AddLast(new Stud($"Vardas{i} Pavarde{i} x5"));
+                container.AddFirst(new Stud($"Vardas{i} Pavarde{i} x5"));
             }
 
             times.Add(sw.Elapsed);
@@ -165,14 +165,16 @@ namespace IPAprograma
             var b = new LinkedList<Stud>();
             for (int i = 0; i < size; i++)
             {
-                if (container.ElementAt(i).GetMean() < 5)
+                var element = container.First();
+                if (element.GetMean() < 5)
                 {
-                    a.AddLast(container.ElementAt(i));
+                    a.AddFirst(element);
                 }
                 else
                 {
-                    b.AddLast(container.ElementAt(i));
+                    b.AddFirst(element);
                 }
+                container.RemoveFirst();
             }
 
             times.Add(sw.Elapsed);
@@ -210,13 +212,157 @@ namespace IPAprograma
             var b = new Queue<Stud>();
             for (int i = 0; i < size; i++)
             {
-                if (container.ElementAt(i).GetMean() < 5)
+                var element = container.Dequeue();
+
+                if (element.GetMean() < 5)
                 {
-                    a.Enqueue(container.ElementAt(i));
+                    a.Enqueue(element);
                 }
                 else
                 {
-                    b.Enqueue(container.ElementAt(i));
+                    b.Enqueue(element);
+                }
+            }
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+            a = new Queue<Stud>(Studentai.OrderStudents(a));
+            b = new Queue<Stud>(Studentai.OrderStudents(b));
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            string path = System.IO.Path.GetTempFileName();
+            Studentai.WriteStudents(path, container);
+            System.IO.File.Delete(path);
+
+            times.Add(sw.Elapsed);
+
+            return times;
+        }
+
+        public static List<TimeSpan> TestListDel(int size)
+        {
+            var times = new List<TimeSpan>();
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            var container = new List<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                container.Add(new Stud($"Vardas{i} Pavarde{i} x5"));
+            }
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            var a = new List<Stud>();
+            var b = new List<Stud>();
+            for (int i = size-1; i >= 0; i--)
+            {
+                if (container[i].GetMean() < 5)
+                {
+                    a.Add(container[i]);
+                }
+                else
+                {
+                    b.Add(container[i]);
+                }
+                container.RemoveAt(i);
+            }
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            a = Studentai.OrderStudents(a).ToList();
+            b = Studentai.OrderStudents(b).ToList();
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            string path = System.IO.Path.GetTempFileName();
+            Studentai.WriteStudents(path, container);
+            System.IO.File.Delete(path);
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            return times;
+        }
+
+        public static List<TimeSpan> TestLinkedListLast(int size)
+        {
+            var times = new List<TimeSpan>();
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            var container = new LinkedList<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                container.AddLast(new Stud($"Vardas{i} Pavarde{i} x5"));
+            }
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            var a = new LinkedList<Stud>();
+            var b = new LinkedList<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                var element = container.Last();
+                if (element.GetMean() < 5)
+                {
+                    a.AddLast(element);
+                }
+                else
+                {
+                    b.AddLast(element);
+                }
+                container.RemoveLast();
+            }
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+            a = new LinkedList<Stud>(Studentai.OrderStudents(a));
+            b = new LinkedList<Stud>(Studentai.OrderStudents(b));
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            string path = System.IO.Path.GetTempFileName();
+            Studentai.WriteStudents(path, container);
+            System.IO.File.Delete(path);
+
+            times.Add(sw.Elapsed);
+
+            return times;
+        }
+
+        public static List<TimeSpan> TestQueueElementAt(int size)
+        {
+            var times = new List<TimeSpan>();
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            var container = new Queue<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                container.Enqueue(new Stud($"Vardas{i} Pavarde{i} x5"));
+            }
+
+            times.Add(sw.Elapsed);
+            sw.Restart();
+
+            var a = new Queue<Stud>();
+            var b = new Queue<Stud>();
+            for (int i = 0; i < size; i++)
+            {
+                var element = container.ElementAt(i);
+                if (element.GetMean() < 5)
+                {
+                    a.Append(element);
+                }
+                else
+                {
+                    b.Append(element);
                 }
             }
 
@@ -238,18 +384,18 @@ namespace IPAprograma
 
         public static void RunAdvanceBenchmark(int size)
         {
-            Lentele.tableWidth = 80;
+            Lentele.tableWidth = 100;
 
             System.Console.WriteLine($"Student list size: {size}");
-            System.Console.WriteLine(Lentele.GetFormatRow(false, "Container/Strategy", "Init", "Split", "Sort", "Write"));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, "Strategy", "Init", "Split", "Sort", "Write"));
             System.Console.WriteLine(Lentele.GetLine());
 
             System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestList(size)).Prepend("List/NoDel").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestList(size)).Prepend("List/WithDel").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedList(size)).Prepend("LinkedList/NoDel").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedList(size)).Prepend("LinkedList/WithDel").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue/NoDel").ToArray()));
-            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue/WithDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestListDel(size)).Prepend("List/WithDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedListFirst(size)).Prepend("LinkedList/DelFirst").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedListLast(size)).Prepend("LinkedList/DelLast").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue/First").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueueElementAt(size)).Prepend("Queue/ElementAt").ToArray()));
         }
     }
 }
