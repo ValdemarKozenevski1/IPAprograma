@@ -235,5 +235,21 @@ namespace IPAprograma
 
             return times;
         }
+
+        public static void RunAdvanceBenchmark(int size)
+        {
+            Lentele.tableWidth = 80;
+
+            System.Console.WriteLine($"Student list size: {size}");
+            System.Console.WriteLine(Lentele.GetFormatRow(false, "Container/Strategy", "Init", "Split", "Sort", "Write"));
+            System.Console.WriteLine(Lentele.GetLine());
+
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestList(size)).Prepend("List/NoDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestList(size)).Prepend("List/WithDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedList(size)).Prepend("LinkedList/NoDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestLinkedList(size)).Prepend("LinkedList/WithDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue/NoDel").ToArray()));
+            System.Console.WriteLine(Lentele.GetFormatRow(false, FormatTimeSpans(TestQueue(size)).Prepend("Queue/WithDel").ToArray()));
+        }
     }
 }
