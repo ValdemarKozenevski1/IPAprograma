@@ -15,6 +15,7 @@ namespace IPAprograma
                 Console.WriteLine("Iveskite funkcijos numeri (ir spauskite enter):");
                 Console.WriteLine("1. Ivesite studentu duomenis");
                 Console.WriteLine("2. Ivesite duomenu faila");
+                Console.WriteLine("3. Atlikti benchmark'a");
                 Console.WriteLine("E. Baigti programa");
 
                 var line = Console.ReadLine();
@@ -27,7 +28,10 @@ namespace IPAprograma
                 {
                     Studentai.IvestiStudentuFaila();
                 }
-
+                if (line.Equals("3"))
+                {
+                    Benchmark.RunBenchmark();
+                }
                 if (line.Equals("E"))
                 {
                     break;
