@@ -1,9 +1,10 @@
 # IPAprograma
 IPA dalyko programa
 
-## v0.1 ##
+## v0.2 ##
 
-Sukurtas studentų įvedimas ranka ir jų išvedimas ant ekrano skaičiuojant bendrą pažymių vidurkį arba medianą.
-1. Prašoma suvesti studento vardą pavardę ir pažymius (galima pasirinkti kad programa pati "random" skaičius paduotų tarsi pažymiai nuo 0 iki 10).
-2. Pasirenkama ar norime medianą ar vidurkį.
-3. Išveda lentelę į ekraną su pažymių vidrukių arba medianą, vardais, pavardėm.
+Pridėtas nuskaitymas iš failų (kaip "Testavimo failas"). Ir padarytas rušiavimas.
+
+Naudotis:
+1. Spaudžiame 2 ("2. Ivesite duomenu faila");
+2. Nurodome kelia į failą, kuri norime nuskaityti.
