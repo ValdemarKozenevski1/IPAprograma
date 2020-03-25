@@ -61,7 +61,7 @@ Naudotis:
 1. Spaudžiame 5 ("5. Atlikti 2 strategiju benchmark'a");
 2. Gauname lentelę su rezultatais.
 
-
+Student list size: 100000
 |           Strategy        |        Init       |        Split        |      Sort       |  Write    |    
 |-|-|-|-|-|
 |        List/NoDel        |         0:00.258         |         0:00.7     |         0:00.538        |         0:00.249        |         
